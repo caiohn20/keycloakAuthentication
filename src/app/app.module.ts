@@ -9,16 +9,20 @@ import { environment } from '../environments/environment';
 
 function iniciarKeycloak(keycloak: KeycloakService) {
   return () =>
-    keycloak.init({
-      config: environment.authConfig,
-      initOptions: {
-        onLoad: 'check-sso',
-        checkLoginIframe: false,
-        //silentCheckSsoRedirectUri: window.location.origin + '/assets/verify-sso.html'
-      },
-      //loadUserProfileAtStartUp: true,
-      bearerExcludedUrls: [],
-    });
+    keycloak
+      .init({
+        config: environment.authConfig,
+        initOptions: {
+          onLoad: 'check-sso',
+          checkLoginIframe: false,
+          //silentCheckSsoRedirectUri: window.location.origin + '/assets/verify-sso.html'
+        },
+        //loadUserProfileAtStartUp: true,
+        bearerExcludedUrls: [],
+      })
+      .catch((error) => {
+        console.error('Erro', error);
+      });
 }
 
 @NgModule({
