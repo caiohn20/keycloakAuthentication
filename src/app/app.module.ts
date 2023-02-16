@@ -1,4 +1,8 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -6,6 +10,10 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { environment } from '../environments/environment';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// Import library module
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 function iniciarKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -27,7 +35,13 @@ function iniciarKeycloak(keycloak: KeycloakService) {
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, KeycloakAngularModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    KeycloakAngularModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -37,5 +51,6 @@ function iniciarKeycloak(keycloak: KeycloakService) {
     },
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile, KeycloakRoles } from 'keycloak-js';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,10 @@ export class AppComponent implements OnInit {
   public isLogado = false;
   public perfilUsuario: KeycloakProfile | null = null;
 
-  constructor(private readonly keycloak: KeycloakService) {}
+  constructor(
+    private readonly keycloak: KeycloakService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   public async ngOnInit() {
     this.isLogado = await this.keycloak.isLoggedIn();
@@ -23,6 +27,14 @@ export class AppComponent implements OnInit {
       this.perfilUsuario = await this.keycloak.loadUserProfile();
       console.log(this.perfilUsuario);
     }
+
+    /** spinner starts on init */
+    this.spinner.show();
+
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 5000);
   }
 
   public login() {
